@@ -1,26 +1,19 @@
 const express = require("express");
+const cTable = require("console.table");
 const inputCheck = require("./utils/inputCheck");
 const PORT = process.env.PORT || 3001;
 const app = express();
-
-const mysql = require("mysql2");
-
+const db = require("./db/connection");
+const apiRoutes = require("./routes/apiRoutes");
 
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-// Connect to database
+app.use("/api", apiRoutes);
 
-const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'Citibank123@',
-    database: 'team'
-},
-    
-    console.log('Connected to the team database.')
-);
+
+
 
 
 // GET all employees
@@ -45,7 +38,7 @@ app.get("/api/department", (req, res) => {
 
 
 
-// Get a single candidate
+// Get a single employees
 
 app.get('/api/department/:id', (req, res) => {
 
@@ -72,7 +65,7 @@ app.get('/api/department/:id', (req, res) => {
 
 
 
-// Delete a candidate
+// Delete a employees
 
 app.delete('/api/employees/:id', (req, res) => {
     
@@ -103,7 +96,7 @@ app.delete('/api/employees/:id', (req, res) => {
 
 
 
-// Create a candidate
+// Create a employee
 
 app.post("/api/department", ({ body }, res) => {
 
